@@ -1,0 +1,13 @@
+version: '3'
+services:
+        database:
+                image: mongo:3.0.2
+                ports: '27017:27017'
+        
+        service-coredms:
+                build: .
+                volumes: .:/usr/src/app
+                ports:
+                        - '3000:80'
+                links:
+                        - database
