@@ -40,3 +40,7 @@ def get_customer():
     args=json.loads(response)
     return json.dumps(args)
 
+
+
+app.run(host="0.0.0.0", port=80, debug=True)
+

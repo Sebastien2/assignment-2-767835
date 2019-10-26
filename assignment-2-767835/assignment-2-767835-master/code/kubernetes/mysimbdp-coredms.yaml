@@ -31,8 +31,8 @@ spec:
         selector:
                 app: coredms
         ports:
-                - port: 8081
+                - port: 30002
                   protocol: TCP
                   targetPort: 80
-                  nodePort: 30002
+                  nodePort: 30102
         type: LoadBalancer
