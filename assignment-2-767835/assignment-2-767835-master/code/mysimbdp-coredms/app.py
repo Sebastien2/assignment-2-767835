@@ -212,7 +212,7 @@ def get_length_table():
             }
     else:
         table=client_mongo[customer["identifier"]][customer['name_table']]
-        l=len([item for item in table.find()]
+        l=len([item for item in table.find()])
         res={
                 "status": "success",
                 "motive": "",
@@ -224,14 +224,6 @@ def get_length_table():
 
 
 
-
-
-
-
-
-
-        res['status']="failure"
-        res['motive']="HttpError: "+str(err)
 @app.route("/get_file", methods=["POST"])
 def get_file():
     #on trouve le fichier de cette personne avec ce fileneme, et on le renvoie en texte

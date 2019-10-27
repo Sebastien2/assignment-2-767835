@@ -16,7 +16,7 @@ spec:
                 spec:
                         containers:
                                 - name: mysimbdp-coredms
-                                  image: gcr.io/my-project-hello-world-255117/mysimbdp-coredms:v0.2
+                                  image: gcr.io/my-project-hello-world-255117/mysimbdp-coredms:v0.6
                                   ports:
                                           - containerPort: 80
 

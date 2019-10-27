@@ -97,7 +97,7 @@ def get_list_of_files():
             "resquest": "get_list_of_files",
             "result": ""
         }
-    customer=requst.form['customer_identifier']
+    customer=request.form['customer_identifier']
     #then we get all the files that start with <customer>_data_file_
 
     filenames=[]
@@ -163,7 +163,7 @@ def execute_ingestion_of_data_in_database(filename, customer):
         response=response['data']
         connexion.close()
 
-    return
+    return 0
 
 
 

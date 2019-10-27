@@ -41,7 +41,7 @@ def execute_ingestion():
     #TODO: get the file, put the function as callback for rabbitmq, and activate the reading of the whole queue
     channel.queue_bind(exchange=customer, queue=customer)
     channel.basic_consume(queue=customer, auto_ack=True, on_message_callback=callback)
-    Thread t1=Thread(target=consume)
+    t1=Thread(target=consume)
     t1.start()
     res={
             "status": "success",
