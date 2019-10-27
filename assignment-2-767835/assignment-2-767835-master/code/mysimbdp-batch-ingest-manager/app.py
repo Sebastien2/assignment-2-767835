@@ -22,11 +22,22 @@ def set_data_management_function():
     customer=request.form['customer_identifier']
     #we get the funtion as text
     function=request.form['treatment_function']
+    #we put the function in the local files -> storage space shared within the pod
+    filename=customer+"_"+"ingestion_function.py"
+    with open("/files/"+filename, "w") as f:
+        f.write(function)
+        f.close()
+        res['status']="success"
+        res['result']="file created: "+filename
+    return json.dumps(res)
+    #USELESS TO PUT IN THE DATABASE
+
     try:
         #response=request.post(url="http://coredms-service/set_data_management_function", data={"function": function, "customer_identifier": customer})
         connexion=http.client.HTTPConnection("coredms-service", 30002)
         data={
-                    "customer_identifier": customer
+                    "customer_identifier": customer,
+                    "function": function
                 }
         headers={"Content-type": "application/json"}
         connexion.request('POST', '/set_data_management_function', json.dumps(data), headers)
@@ -83,11 +94,11 @@ def get_list_of_files():
     except HttpError as err:
         res['status']="failure"
         res['motive']="HttpError: "+str(err)
-        return res
+        return json.dumps(res)
     except Exception as err:
         res['status']="failure"
         res['motive']="Exception: "+str(err)
-        return res
+        return json.dumps(res)
     response=response['data']
     res["status"]=response['status']
     res["motive"]=response['motive']
@@ -100,12 +111,42 @@ def get_list_of_files():
 
 @app.route('/execute_ingestion', methods=["POST"])
 def execute_ingestion():
+    res={
+            "status": "success",
+            "motive": "",
+            "request": "execute_ingestion",
+            "result": ""
+        }
     #on recupere le customer
     customer=request.form['customer_identifier']
-
+    
     #on recupere le texte de la fonction, et on la met dans un fichier
+    #cette etape est deja faite puisque la fonction a ete enregistree dans un fichier
+    filename="/files/"+customer+"_ingestion_function.py"
+    #on recupère la liste des fichier depuis la bdd, on se content du contenu
+    try:
+        connexion=http.client.HTTPConnection('coredms-service', 30002)
+        data={
+                    "customer_identifier": customer
+                }
+        headers={"Content-type": "application/json"}
+        connexion.request('POST', "/get_all_my_files", json.dumps(data), headers)
+        response=connexion.getresponse()
+        connexion.close()
 
-    #on recupère la liste des fichier depuis la bdd, on cree les fichiers
+        response=response.read().decode()
+    except HttpError as err:
+        res['status']="failure"
+        res['motive']="HttpError: "+str(err)
+        return json.dumps(res)
+    except Exception as err:
+        res['status']="failure"
+        res['motive']="Exception: "+str(err)
+        return json.dumps(res)
+    data=response['data']['result']
+
+
+    
 
     #on execute la fonction sur chaque fichier, en inserant le resultat dans la bdd
 

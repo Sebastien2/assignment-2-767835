@@ -40,8 +40,8 @@ def add_message():
     message=request.form["message"]
     #we make sure the customer has his own queue
     channel.queue_declare(customer)
-
-    channel.basic_publish(exchange="adding message", routing_key=customer, body=message)
+    channel.exchange_declare(exchange=customer, exchange_type="direct")
+    channel.basic_publish(exchange=customer, routing_key=customer, body=message)
 
     res={
             "status": "success",

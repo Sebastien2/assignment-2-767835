@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+        name: fetch-data-batch
+        labels:
+                app: fetch-data-batch
+spec:
+        replicas: 1
+        selector:
+                matchLabels:
+                        app: fetch-data-batch
+        template:
+                metadata:
+                        labels:
+                                app: fetch-data-batch
+                spec:
+                        containers:
+                                - name: mysimbdp-fetch-data-batch
+                                  image: gcr.io/my-project-hello-world-255117/mysimbdp-fetch-data-batch:v0.1
+                                  volumeMounts:
+                                          - mountPath: /files
+                                            name: files-volume-fetch-data-batch
+                                  ports:
+                                          - containerPort: 80
+                        volumes:
+                                 - name: files-volume-fetch-data-batch
+                                   emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+        name: fetch-data-batch-service
+        labels:
+                app: fetch-data-batch-service
+spec:
+        selector:
+                app: fetch-data-batch
+        ports:
+                - port: 30012
+                  protocol: TCP
+                  targetPort: 80
+                  nodePort: 30112
+        type: LoadBalancer
