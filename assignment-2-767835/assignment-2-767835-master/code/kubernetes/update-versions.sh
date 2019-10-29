@@ -1,3 +1,3 @@
 
-sed -i 's/v0.5/v0.6/g' *.yaml
+sed -i 's/v0.14/v0.15/g' *.yaml
 

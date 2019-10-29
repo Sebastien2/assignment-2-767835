@@ -36,7 +36,7 @@ def get_constraints():
 
 
 
-@app.route("/add_data_file", method=["POST"])
+@app.route("/add_data_file", methods=["POST"])
 def add_data_file():
     #we get the customer name
     customer=request.form['customer_identifier']
@@ -162,7 +162,14 @@ def execute_ingestion_of_data_in_database(filename, customer):
         response=connexion.getresponse()
         response=response['data']
         connexion.close()
-
+    except HttpError as err:
+        res['status']="failure"
+        res['motive']="HttpError: "+str(err)
+        return json.dumps(res)
+    except Exception as err:
+        res['status']="failure"
+        res['motive']="HttpError: "+str(err)
+        return json.dumps(res)
     return 0
 
 

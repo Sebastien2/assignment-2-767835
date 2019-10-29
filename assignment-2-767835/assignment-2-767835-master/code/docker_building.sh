@@ -1,5 +1,5 @@
 
-VERSION="v0.6"
+VERSION="v0.15"
 
 docker build ./mysimbdp-coredms/ -t gcr.io/my-project-hello-world-255117/mysimbdp-coredms:$VERSION
 docker build ./mysimbdp-data-broker/ -t gcr.io/my-project-hello-world-255117/mysimbdp-data-broker:$VERSION

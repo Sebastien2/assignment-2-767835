@@ -5,6 +5,7 @@ import pandas as pd
 from flask import Flask, redirect, url_for, request, render_template
 from pymongo import MongoClient
 
+
 app=Flask(__name__)
 
 #client=MongoClient("mongodb://database:27017/")
@@ -12,19 +13,39 @@ client_mongo=MongoClient('mongodb://mongodb-service', 30001)
 
 
 
-@app.route('/show_length_database')
+@app.route('/show_length_database', methods=['POST', 'GET'])
 def show_length_database():
-    _items=client_mongo.customers.find()
+    _items=client_mongo.customers.find({},{"_id": 0} )
     items=[item for item in _items]
     #return render_template('show_length_database.html', len=len(items))
     return str(len(items))
 
 #test
-@app.route('/hello_world')
+@app.route('/hello_world', methods=['POST', 'GET'])
 def hello_world():
     return "hello world"
 
-
+@app.route("/description_database", methods=["POST"])
+def description_database():
+    # we give for each collection, the list of tables with the size of the table
+    dbs=client_mongo.list_database_names()
+    res={
+            "status": "success",
+            "motive": "",
+            "request": "/description_database",
+            "result": ""
+        }
+    contenu=""
+    for database in dbs:
+        db=client_mongo.database
+        contenu+=database+"\n"
+        tables=db.list_collections_names()
+        for table in tables:
+            tb=db.table
+            size=len(tb.find({}))
+            contenu+="    "+table+": "+str(size)+"\n"
+    res['result']=contenu
+    return json.dumps(res)
 
 
 
@@ -43,12 +64,13 @@ def get_customer():
     customer=table.find_one({"identifier": customer_name})
     return json.dumps(customer)
 
-
+    
 #should not be useful, except for debugging
-@app.route('get_all_customers', methods=["POST"])
+@app.route('/get_all_customers', methods=["POST"])
 def get_all_customers():
     table=client_mongo.customers.customers
-    customers=table.find()
+    customers=table.find({}, {"_id": 0})
+    customers=[item for item in customers]
     return json.dumps(customers)
 
 
@@ -72,7 +94,7 @@ def add_customer():
             }
     else:
         #we insert the customer as requested
-        result=db.customers.insert_one({
+        result=customers.insert_one({
                                         "identifier": customer_identifier,
                                         "name_table": name_table
                                      })
@@ -85,12 +107,32 @@ def add_customer():
     return json.dumps(res)
 
 
+
+
+@app.route('/testing', methods=["POST"])
+def testing():
+        res={
+                "status": "success",
+                "motive": "",
+                "request": "testing",
+                "result": 0
+            }
+        content={}
+        content["request.form"]=(request.form)
+        content["request.args"]=(request.args)
+        content["request.values"]=(request.values)
+        content["request.json"]=(request.json)
+        res["result"]=(content)
+        return json.dumps(res)
+
+
+
 #get the data functions
 @app.route('/get_all_data', methods=["POST"])
 def get_all_data():
     #we get the naem of the customer
     customer=request.form['customer']
-    customer=client_mongo.customers.customers.find_one({"identifier": customer})
+    customer=client_mongo.customers.customers.find_one({"identifier": customer}, {"_id": 0})
     if(customer is None):
         res={
                 "status": "failure",
@@ -102,6 +144,7 @@ def get_all_data():
         table_name=customer['name_table']
         table=db[table_name]
         data=table.find()
+        data=[elem for elem in data]
         res={
                 "status": "success",
                 "motive": "",
@@ -115,7 +158,7 @@ def get_all_data():
 def get_one_data():     
     #we get the naem of the customer
     customer_id=request.form['customer']
-    customer=client_mongo.customers.customers.find_one({"identifier": customer_id})
+    customer=client_mongo.customers.customers.find_one({"identifier": customer_id}, {"_id": 0})
     if(customer is None):
         res={
                 "status": "failure",
@@ -232,7 +275,7 @@ def get_file():
 
     complete_name=customer+"_"+filename
     table=client_mongo.files.files
-    entity=table.find_one({'filename': complete_name})
+    entity=table.find_one({'filename': complete_name}, {"_id": 0})
     res={
             "status": "success",
             "motive": "",
@@ -266,7 +309,7 @@ def add_file():
     return json.dumps(res)
 
 
-@app.route("get_all_my_files", methods=["POST"])
+@app.route("/get_all_my_files", methods=["POST"])
 def get_all_my_files():
     res={
             "status": "success",
@@ -281,7 +324,7 @@ def get_all_my_files():
     table=client_mongo.files.files
 
     #we get all the files of this customer
-    rows=table.find({"customer": customer})
+    rows=table.find({"customer": customer}, {"_id": 0})
     rows=[item for item in rows]
     res['result']=rows
     return json.dumps(res)

@@ -3,20 +3,20 @@ kind: Deployment
 metadata:
         name: coredms
         labels:
-                app: coredms
+                app: streamingestmanager-partial
 spec:
         replicas: 1
         selector:
                 matchLabels:
-                        app: coredms
+                        app: streamingestmanager-partial
         template:
                 metadata:
                         labels:
-                                app: coredms
+                                app: streamingestmanager-partial
                 spec:
                         containers:
-                                - name: mysimbdp-coredms
-                                  image: gcr.io/my-project-hello-world-255117/mysimbdp-coredms:v0.15
+                                - name: streamingestmanager-partial
+                                  image: gcr.io/my-project-hello-world-255117/streamingestmanager-partial:v0.1
                                   ports:
                                           - containerPort: 80
 
@@ -24,15 +24,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-        name: coredms-service
+        name: streamingestmanager-partial-service
         labels:
-                app: coredms-service
+                app: streamingestmanager-partial-service
 spec:
         selector:
-                app: coredms
+                app: streamingestmanager-partial
         ports:
-                - port: 30002
+                - port: 30023
                   protocol: TCP
                   targetPort: 80
-                  nodePort: 30102
+                  nodePort: 30123
         type: LoadBalancer
