@@ -29,7 +29,7 @@ def callback(ch, methods, properties, body):
     #we get the customer's name
     customer=methods.routing_key
     message=(body.decode())
-    message=message.replace("'", "\"") 
+    message=message.replace("'", "\"")
     #we execute the function on this messsage
     subprocess.run(["python3", "./"+customer+"_function.py", message])
 
@@ -44,7 +44,7 @@ def callback(ch, methods, properties, body):
 
     #second insertion: for the logs
     logs_table=mongo_client.logs[customer]
-    logs_table.insert_one({"datetime": str(datetime.datetime.now()), "nature": "insertion one element"})
+    logs_table.insert_one({"datetime": str(datetime.datetime.now()), "nature": "insertion one data stream"})
     #print("callback performed")
 
 
@@ -60,7 +60,7 @@ def callback(ch, methods, properties, body):
 def add_message(message):
     connection=pika.BlockingConnection(pika.ConnectionParameters(IP_rabbit, 30021))
     channel=connection.channel()
-    
+
     customer=message['customer_identifier']
     channel.queue_declare(customer)
     channel.exchange_declare(exchange=customer, exchange_type="direct")
@@ -148,6 +148,7 @@ for i in range(1000):
     add_message({"customer_identifier": "alice", "data": "bob morane l aventurier est passe par la"})
     print("message aadding: "+ str(i) + "/1000")
 define_personal_function("alice", "")
+#define_personal_function"alice", "print('Ingestion of one data')")
 
 t=threading.Thread(target=consume)
 t.start()
@@ -165,4 +166,3 @@ print("logs written")
 
 
 sys.exit()
-
