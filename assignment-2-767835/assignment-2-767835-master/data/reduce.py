@@ -5,7 +5,7 @@ import datetime
 
 
 
-with open("./data.csv", "r") as f:
+with open("data.csv", "r") as f:
     content=f.read()
     f.close()
 
