@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-        name: coredms
+        name: streamingestmanager-partial
         labels:
                 app: streamingestmanager-partial
 spec:
@@ -16,7 +16,7 @@ spec:
                 spec:
                         containers:
                                 - name: streamingestmanager-partial
-                                  image: gcr.io/my-project-hello-world-255117/streamingestmanager-partial:v0.1
+                                  image: gcr.io/my-project-hello-world-255117/streamingestmanager-partial:v0.13
                                   ports:
                                           - containerPort: 80
 
