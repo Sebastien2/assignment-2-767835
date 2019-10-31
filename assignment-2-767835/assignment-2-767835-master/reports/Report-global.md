@@ -69,3 +69,21 @@ The program returns the logs in the file code/partial-pieces/mysimbdp-batchinges
 ** Stream ingestion **
 
 The stream ingestion was implemented on GCP, with MongoDB and RabbitMQ running as services on a cluster. It can also be run locally by changing the ports and IPs of both services accordingly.
+There are 2 profiles defined: Alice and Bob.
+
+** Global model implementation **
+
+The main implementation aimed at a whole platform on Kubernetes with all the services described in the top schema. This implementation is not fully working however due to lack of time. The services can be deployed on Google Cloud Paltform, they are running and communicationg with one another correctly (hello_world requests have been successful). However, all the useful requests are not working: many errors are left, and prevent any use of the services. This implementation uses the following folders:
+- code/kubernetes (except code/kubernetes/partial-pieces): contains the configuration files for all the services. The replicas are set to 1 for testing. For deployment, they should be set to at least 3.
+- code/mysimbdp-batch-ingest-manager: contains the files to create the Docker image for this service
+- code/mysimbdp-coredms: contains the files to create the Docker image for this service
+- code/mysimbdp-data-broker: contains the files to create the Docker image for this service
+- code/mysimbdp-stream-ingest-manager: contains the files to create the Docker image for this service
+
+In order to run the services:
+- ./code/gcloud_config.sh : creates a cluster on GCP, and configures it as the default cluster
+- ./code/docker_building.sh: creates all the docker images, and stores them on gcr.io
+- ./code/kubernetes/start.sh: starts all deployments and services
+- ./code/kubernetes/end.sh: stops all deployments and services. Warning: the cluster must be removed afterwards.
+
+A hello_world request can be performed with curl: curl [external_IP of coredms-service]/hello_world. Sadly, most other requests do not work.
