@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+        name: stream-ingest-manager
+        labels:
+                app: stream-ingest-manager
+spec:
+        replicas: 1
+        selector:
+                matchLabels:
+                        app: stream-ingest-manager
+        template:
+                metadata:
+                        labels:
+                                app: stream-ingest-manager
+                spec:
+                        containers:
+                                - name: mysimbdp-stream-ingest-manager
+                                  image: gcr.io/my-project-hello-world-255117/mysimbdp-stream-ingest-manager:v0.15
+                                  volumeMounts:
+                                          - mountPath: /files
+                                            name: files-volume-stream-ingest-manager
+                                  ports:
+                                          - containerPort: 80
+                        volumes:
+                                 - name: files-volume-stream-ingest-manager
+                                   emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+        name: stream-ingest-manager-service
+        labels:
+                app: stream-ingest-manager-service
+spec:
+        selector:
+                app: stream-ingest-manager
+        ports:
+                - port: 30014
+                  protocol: TCP
+                  targetPort: 80
+                  nodePort: 30114
+        type: LoadBalancer

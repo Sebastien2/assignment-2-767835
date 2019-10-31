@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+        name: coredms
+        labels:
+                app: coredms
+spec:
+        replicas: 1
+        selector:
+                matchLabels:
+                        app: coredms
+        template:
+                metadata:
+                        labels:
+                                app: coredms
+                spec:
+                        containers:
+                                - name: mysimbdp-coredms
+                                  image: gcr.io/my-project-hello-world-255117/mysimbdp-coredms:v0.15
+                                  ports:
+                                          - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+        name: coredms-service
+        labels:
+                app: coredms-service
+spec:
+        selector:
+                app: coredms
+        ports:
+                - port: 30002
+                  protocol: TCP
+                  targetPort: 80
+                  nodePort: 30102
+        type: LoadBalancer

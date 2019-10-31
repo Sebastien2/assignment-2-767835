@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+        name: batchingestmaanager-partial
+        labels:
+                app: batchingestmanager-partial
+spec:
+        replicas: 1
+        selector:
+                matchLabels:
+                        app: batchingestmanager-partial
+        template:
+                metadata:
+                        labels:
+                                app: batchingestmanager-partial
+                spec:
+                        containers:
+                                - name: batchingestmanager-partial
+                                  image: gcr.io/my-project-hello-world-255117/batchingestmanager-partial:v0.1
+                                  ports:
+                                          - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+        name: batchingestmanager-partial-service
+        labels:
+                app: batchingestmanager-partial-service
+spec:
+        selector:
+                app: batchingestmanager-partial
+        ports:
+                - port: 30022
+                  protocol: TCP
+                  targetPort: 80
+                  nodePort: 30122
+        type: LoadBalancer

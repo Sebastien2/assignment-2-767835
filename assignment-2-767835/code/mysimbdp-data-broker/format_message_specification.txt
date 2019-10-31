@@ -1,0 +1,6 @@
+{
+	"customer": "",
+	"data": "one data on json format"
+}
+
+#the format should be json

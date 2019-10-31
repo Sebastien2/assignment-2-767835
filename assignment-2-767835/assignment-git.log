@@ -1,0 +1,71 @@
+commit 54b2221ee9b0ce83bb8fadc75ffa426e4784092b
+Author: sebastien.boire <boire.sebastien@gmail.com>
+Date:   Thu Oct 31 14:51:24 2019 +0100
+
+    reports correcting
+
+commit 7ed04627a0bea45ce3209b7a5b6f66600ce20e15
+Author: sebastien.boire <boire.sebastien@gmail.com>
+Date:   Thu Oct 31 14:28:07 2019 +0100
+
+    report writing
+
+commit 211f58c41ef6813c9f26a3e0dd353e318a048cb1
+Author: sebastien.boire <boire.sebastien@gmail.com>
+Date:   Wed Oct 30 17:18:40 2019 +0100
+
+    performance analysis
+
+commit 0bf263ce14c85fa3157bc44a6f540ab3ccbf7554
+Author: sebastien.boire <boire.sebastien@gmail.com>
+Date:   Wed Oct 30 13:31:05 2019 +0100
+
+    data addition
+
+commit b191e9a9957409c404bc15858adc2b0a4ce09c96
+Author: sebastien.boire <boire.sebastien@gmail.com>
+Date:   Wed Oct 30 13:22:04 2019 +0100
+
+    error correcting
+
+commit 582a0e397305711d35cdcbd0f402a24e153f54be
+Author: Sebastien2 <boire.sebastien@gmail.com>
+Date:   Wed Oct 30 09:44:37 2019 +0100
+
+    performance stream ingestion
+
+commit fb2e0834b332f5c17f471ec540df16763c9fdbcb
+Author: Sebastien2 <boire.sebastien@gmail.com>
+Date:   Tue Oct 29 16:21:39 2019 +0100
+
+    adding partial programs as emergency solution
+
+commit 4bec9980d49711efb79b9a09c52a847d5a3238a1
+Author: Sebastien2 <boire.sebastien@gmail.com>
+Date:   Sun Oct 27 20:22:31 2019 +0100
+
+    correcting errors
+
+commit 57c1965c6f61a608bbbf3a35d28d85c7091991b7
+Author: Sebastien2 <boire.sebastien@gmail.com>
+Date:   Sun Oct 27 19:47:31 2019 +0100
+
+    stream data added
+
+commit 3b03c3d1ead0942e1f167fb93dbf670b312e70ac
+Author: Sebastien2 <boire.sebastien@gmail.com>
+Date:   Sat Oct 26 19:26:00 2019 +0200
+
+    batch services built, except execution of ingestion
+
+commit 9b7a3f706821f8ea73012f70c2d9b24a91887019
+Author: Sebastien2 <boire.sebastien@gmail.com>
+Date:   Fri Oct 25 12:13:24 2019 +0200
+
+    service customer-manager set up
+
+commit c2498fc720d1d962d69fd289bae1e378cce88816
+Author: Sebastien2 <boire.sebastien@gmail.com>
+Date:   Thu Oct 24 12:04:04 2019 +0200
+
+    upadte coredms
