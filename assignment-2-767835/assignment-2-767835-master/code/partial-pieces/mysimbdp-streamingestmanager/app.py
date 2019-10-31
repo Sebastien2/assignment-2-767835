@@ -9,7 +9,7 @@ import time
 import threading
 import sys
 
-
+#TODO: modify the IPs
 IP_mongo="35.228.109.116"
 IP_rabbit="35.228.247.66"
 
@@ -143,26 +143,45 @@ def consume():
     start_consuming("alice")
 
 
-
-for i in range(1000):
-    add_message({"customer_identifier": "alice", "data": "bob morane l aventurier est passe par la"})
-    print("message aadding: "+ str(i) + "/1000")
-define_personal_function("alice", "")
-#define_personal_function"alice", "print('Ingestion of one data')")
-
-t=threading.Thread(target=consume)
-t.start()
-print("consumption begun")
-
-time.sleep(200)
-
-logs=get_logs("alice")
-with open("./og_results", "w") as f:
-    f.write(logs)
-    f.close()
-
-print("logs written")
+#TODO: choose the customer
+customer="alice"
 
 
+if(customer=="alice"):
+    for i in range(1000):
+        add_message({"customer_identifier": "alice", "data": "bob morane l aventurier est passe par la"})
+        print("message aadding: "+ str(i) + "/1000")
+    define_personal_function("alice", "")
+    #define_personal_function"alice", "print('Ingestion of one data')")
 
-sys.exit()
+    t=threading.Thread(target=consume)
+    t.start()
+    print("consumption begun")
+
+    time.sleep(200)
+
+    logs=get_logs("alice")
+    with open("./og_results", "w") as f:
+        f.write(logs)
+        f.close()
+
+    print("logs written")
+elif(customer=="bob"):
+        for i in range(1000):
+            add_message({"customer_identifier": "bob", "data": "jack the reaper was in london"})
+            print("message aadding: "+ str(i) + "/1000")
+        define_personal_function("bob", "print('ses fluctuat nec mergitur')")
+        #define_personal_function"alice", "print('Ingestion of one data')")
+
+        t=threading.Thread(target=consume)
+        t.start()
+        print("consumption begun")
+
+        time.sleep(200)
+
+        logs=get_logs("bob")
+        with open("./log_results", "w") as f:
+            f.write(logs)
+            f.close()
+
+        print("logs written")

@@ -9,7 +9,8 @@ import time
 IP_mongo="localhost"
 
 mongo_client=MongoClient(IP_mongo)
-
+#NOTE For execution on GCP, uncomment
+#mongo_client=MongoClient(IP_on_the_clsuter, port_on_the_cluster)
 
 
 
@@ -106,24 +107,44 @@ def get_logs(customer):
 
 
 
-#testin
-
+#testing: NOTE: choose the user
+customer="bob"
 
 #we put a file
-print("saving the file...")
-save_file("bob", "./../../../data/data2.csv")
+if(customer=="alice"):
 
-print("saving the ingestion function ...")
-save_personal_function("bob", "")
+    print("saving the file...")
+    save_file("alice", "./../../../data/data2.csv")
 
-print("ingesting the files...")
-ingest_files("bob")
+    print("saving the ingestion function ...")
+    save_personal_function("alice", "print('and one ingestion')")
 
-print("getting the logs...")
-logs=get_logs("bob")
-with open("./log_results", "w") as f:
-    f.write(logs)
-    f.close()
+    print("ingesting the files...")
+    ingest_files("alice")
+
+    print("getting the logs...")
+    logs=get_logs("alice")
+    with open("./log_results", "w") as f:
+        f.write(logs)
+        f.close()
 
 
-print("done")
+    print("done")
+elif(customer=="bob"):
+    print("saving the file...")
+    save_file("bob", "./../../../data/data2.csv")
+
+    print("saving the ingestion function ...")
+    save_personal_function("bob", "")
+
+    print("ingesting the files...")
+    ingest_files("bob")
+
+    print("getting the logs...")
+    logs=get_logs("bob")
+    with open("./log_results", "w") as f:
+        f.write(logs)
+        f.close()
+
+
+    print("done")
